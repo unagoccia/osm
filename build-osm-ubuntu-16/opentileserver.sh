@@ -28,6 +28,8 @@ VHOST=$(hostname -f)
 
 #Install bc command.
 apt-get install bc -y
+#Install curl command.
+sudo apt-get install curl
 
 #C_MEM is the sum of free memory and cached memory
 C_MEM=$(free -m | grep -i 'mem:' | sed 's/[ \t]\+/ /g' | cut -f4,7 -d' ' | tr ' ' '+' | bc)
@@ -113,7 +115,7 @@ function style_osm_bright(){
 
 function style_osm_carto(){
 
-	apt-get -y install ttf-dejavu fonts-droid ttf-unifont fonts-sipa-arundina fonts-sil-padauk fonts-khmeros ttf-indic-fonts-core fonts-taml-tscu ttf-kannada-fonts
+	apt-get -y install ttf-dejavu fonts-droid-fallback ttf-unifont fonts-sipa-arundina fonts-sil-padauk fonts-khmeros fonts-indic fonts-taml-tscu fonts-knda
 
 	cd /usr/local/share/maps/style
 	if [ ! -d openstreetmap-carto-master ]; then
@@ -190,10 +192,12 @@ apt-get -y install	libboost-all-dev subversion git-core tar unzip wget bzip2 \
 					munin libprotobuf-c0-dev protobuf-c-compiler libfreetype6-dev \
 					libpng12-dev libtiff5-dev libicu-dev libgdal-dev libcairo-dev \
 					libcairomm-1.0-dev apache2 apache2-dev libagg-dev liblua5.2-dev \
-					ttf-unifont fonts-arphic-ukai fonts-arphic-uming fonts-thai-tlwg \
+					fonts-dejavu-core fonts-droid-fallback ttf-unifont \
+					fonts-sipa-arundina fonts-sil-padauk fonts-khmeros fonts-knda \
+					fonts-beng-extra fonts-gargi fonts-taml-tscu fonts-tibetan-machine \
 					lua5.1 liblua5.1-dev libgeotiff-epsg node-carto \
 					postgresql postgresql-contrib postgis postgresql-9.5-postgis-2.2 \
-					php libapache2-mod-php
+					php libapache2-mod-php php7.0-xml
 
 if [ $? -ne 0 ]; then	echo "Error: Apt install failed";	exit 1; fi
 
@@ -239,11 +243,12 @@ if [ $? -ne 0 ]; then	echo "Error: Postgre failed to create extension";	exit 1; 
 #5 Installing osm2pgsql
 #osm2pgsql has pg-9.5 dependency
 #apt-get install -y osm2pgsql python-mapnik2 libmapnik2.2 mapnik-utils libmapnik-dev
-apt-get install -y osm2pgsql
+apt-get install -y osm2pgsql libmapnik-dev libmapnik3.0 mapnik-utils mapnik-vector-tile python-mapnik python3-mapnik
+#apt-get install -y osm2pgsql
 
 #6 Installing mapnik
-apt-get install -y python-mapnik
-apt-get install -y libmapnik-dev
+#apt-get install -y python-mapnik
+#apt-get install -y libmapnik-dev
 #CURRENT_DIR=`pwd`
 #git clone https://github.com/mapnik/mapnik mapnik-3.x --depth 10
 #cd mapnik-3.x
