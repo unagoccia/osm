@@ -10,6 +10,7 @@
 #To run in non-Latin language uncomment below
 #export LC_ALL=C
 
+CURRENT_DIR=$(cd $(dirname $0) && pwd)
 
 WEB_MODE="${1}"         #web,ssl
 OSM_STYLE="${2}"	#bright, carto
@@ -487,12 +488,31 @@ sed -i.save 's/#\?autovacuum.*/autovacuum = on/' /etc/postgresql/${PG_VER}/main/
 ldconfig
 enable_osm_updates
 
+#Install Fonts that used mapnik
+cd ${CURRENT_DIR}
+wget http://iij.dl.osdn.jp/users/8/8637/genshingothic-20150607.zip
+unzip -o genshingothic-20150607.zip -d genshin-gothic
+cp -rf genshin-gothic /usr/share/fonts/truetype/
+rm -rf genshin-gothic
+rm -rf genshingothic-20150607.zip
+case $OSM_STYLE in
+    bright)
+        mv -f /usr/local/share/maps/style/OSMBright/OSMBright.xml /usr/local/share/maps/style/OSMBright/OSMBright.xml.`date '+%Y%m%d%H%M'`
+        cp -f ${CURRENT_DIR}/OSMBright.xml /usr/local/share/maps/style/OSMBright/OSMBright.xml
+        ;;
+    carto)
+        ;;
+    *)
+        echo "Error: Unknown style"; exit 1;
+        ;;
+esac
+
 #Restart services
 service postgresql restart
 service apache2 reload
 service renderd restart
 
-echo <<EOF
+cat <<EOF
 OSM server install done.
 Your authentication data is in "${AUTH_TEXT}"
 If you have CA signed certificates, replace server.crt and server.key in /etc/apache2/ssl
