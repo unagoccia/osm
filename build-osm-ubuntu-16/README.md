@@ -55,7 +55,7 @@ Load South America data with openstreetmap-carto style and SSL:
 
 Load Japan data with openstreetmap-carto style and no SSL:
 
-<code>./opentileserver.sh web carto http://download.geofabrik.de/asia/japan-latest.osm.pbf</code>
+<code>./opentileserver.sh web bright http://download.geofabrik.de/asia/japan-latest.osm.pbf</code>
 
 ## Welcome Page
 
