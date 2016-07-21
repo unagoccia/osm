@@ -2,7 +2,7 @@
 
 This script is for building a basic tile server with OpenStreetMap data.
 
-Only for use on a clean Ubuntu 14 install!!
+Only for use on a clean Ubuntu 16 install!!
 
 Before proceeding, see <a href="opentileserver.org" target="blank"> opentileserver.org </a> for limitations, etc..
 
@@ -17,7 +17,7 @@ Step 3:
 vi and change the password on line 19 to something difficult
 
 <code>
-OSM_USER_PASS='osm2015SgsjcK';	#CHANGE ME
+OSM_USER_PASS='posm';	#CHANGE ME
 </code>
 
 If using a non-Latin alphabet, ucomment line 24 below if needed:
@@ -57,14 +57,21 @@ Load Japan data with openstreetmap-bright style and no SSL:
 
 <code>./opentileserver.sh web bright http://download.geofabrik.de/asia/japan-latest.osm.pbf</code>
 
-## Welcome Page
+#generate_tiles_multiprocess.py
 
-Once installation completes, navigate to the IP or hostname of your server.
+## Over View
+Generate tiles
 
-You should see a page as below:
+Step 1: Change user who created the osm-data
 
-![installation complete](http://opentileserver.org/assets/img/welcome.jpg)
+Step 2: Export params  
+<code>export MAPNIK_MAP_FILE=xxx.xml</code>  
+<code>export MAPNIK_TILE_DIR=/xxxxx/xxxx</code>
 
+Step 3: Run the script
 
-Click on both the OpenLayer and Leaflet Examples and check your installation is rendering
-
+## Examples  
+<code>su osm</code>  
+<code>export MAPNIK_MAP_FILE=/usr/local/share/maps/style/OSMBright/OSMBright.xml</code>  
+<code>export MAPNIK_TILE_DIR=/var/lib/mod_tile/default/</code>  
+<code>./generate_tiles_multiprocess.py</code>
